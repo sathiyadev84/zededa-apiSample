@@ -21,18 +21,18 @@ class zapi(object):
             'userAgent': 'sathiyadev-testing'
         }
         self.session = Session()
-        self.x_csrf_token = self._get_CSRF_token()
+        #self.x_csrf_token = self._get_CSRF_token()
 
-    def _get_CSRF_token(self):
-
-        request_id = uuid.uuid4()
-        headers = {
-            'content-type': 'application/json',
-            'X-Request-Id': request_id.hex
-        }
-        login_url = self.base_url + '/api/v1/login'
-        response = self.session.request("get", login_url, headers=headers)
-        self.headers['X-CSRF-Token'] = response.headers['X-Csrf-Token']
+#    def _get_CSRF_token(self):
+#
+#        request_id = uuid.uuid4()
+#        headers = {
+#            'content-type': 'application/json',
+#            'X-Request-Id': request_id.hex
+#        }
+#        login_url = self.base_url + '/api/v1/login'
+#        response = self.session.request("get", login_url, headers=headers)
+#        self.headers['X-CSRF-Token'] = response.headers['X-Csrf-Token']
 
     def login(self):
         """
@@ -56,7 +56,7 @@ class zapi(object):
             resp = response.json()
             self.auth_token = resp['token']['base64']
             self.headers['Authorization'] = "bearer {}".format(self.auth_token)
-            self.headers['X-CSRF-Token'] = response.headers['X-Csrf-Token']
+#            self.headers['X-CSRF-Token'] = response.headers['X-Csrf-Token']
             return 0, self.auth_token
         else:
             print(f"login to {login_url} failed with response code {response.status_code}")
@@ -82,7 +82,7 @@ class zapi(object):
                 return 1, response.text
 
             json_response = response.json()
-            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
+#            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
             return 0, json_response
         except ConnectionError as e:
             print("Connection error retry GET request {}".format(str(e)))
@@ -116,7 +116,7 @@ class zapi(object):
                 return 1, response.text
 
             json_response = response.json()
-            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
+#            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
             return 0, json_response
         except ConnectionError as e:
             print("Connection error start retry {}".format(str(e)))
@@ -150,7 +150,7 @@ class zapi(object):
             elif response.status_code not in [200, 201, 202]:
                 return 1, response.text
 
-            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
+#            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
             return 0, response.text
         except ConnectionError as e:
             print("Connection error retry POST request")
@@ -176,7 +176,7 @@ class zapi(object):
                 print("DELETE method to API {} failed".format(url))
                 return 1, response.text
 
-            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
+#            self.headers['X-CSRF-Token'] = response.headers['X-CSRF-Token']
             return 0, response.text
         except ConnectionError as e:
             print("Connection error retry DELETE request")
