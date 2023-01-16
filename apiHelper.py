@@ -4,7 +4,7 @@ Supported datastore <type> are HTTP, HTTPS, AWSS3, AZUREBLOB, CONTAINERREGISTRY
 Default origin type is Local
 
 Usage:
-  apiHelper.py login --username=<username> --password=<password>
+  apiHelper.py login --base_url=<base_url> --username=<username> --password=<password>
   apiHelper.py datastore create <name> <type> [--fqdn=<fqdn>] [--region=<region>] [--apikey=<apikey>] [--apipass=<password>] [--dpath=<dpath>] [--origin-type=<origin-type>] [--description=<description>]
   apiHelper.py image create <name> --datastore=<datastore_name> --arch=[AMD64|ARM64] [--origin-type=<global|local>] [--description=<description>]
   apiHelper.py image uplink <name> --image-sha=<image-sha> --image-size=<image-size>
@@ -76,7 +76,7 @@ def main():
     except Exception as e:
         print(e)
 
-    base_url = "https://zedcontrol.hummingbird.zededa.net"
+    base_url = args['--base_url']
     if args['login']:
         user_config = create_config(args['--username'], args['--password'])
         zsession = zapi(base_url, user_config)
